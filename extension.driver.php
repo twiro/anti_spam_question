@@ -25,6 +25,11 @@
 		{
 			return array(
 				array(
+					'page' => '/blueprints/events/',
+					'delegate' => 'AppendEventFilterDocumentation',
+					'callback' => 'appendEventFilterDocumentation'
+				),
+				array(
 					'page'		=> '/blueprints/events/new/',
 					'delegate'	=> 'AppendEventFilter',
 					'callback'	=> 'appendEventFilter'
@@ -33,16 +38,6 @@
 					'page'		=> '/blueprints/events/edit/',
 					'delegate'	=> 'AppendEventFilter',
 					'callback'	=> 'appendEventFilter'
-				),
-				array(
-					'page'		=> '/blueprints/events/new/',
-					'delegate'	=> 'AppendEventFilterDocumentation',
-					'callback'	=> 'appendEventFilterDocumentation'
-				),
-				array(
-					'page'		=> '/blueprints/events/edit/',
-					'delegate'	=> 'AppendEventFilterDocumentation',
-					'callback'	=> 'appendEventFilterDocumentation'
 				),
 				array(
 					'page'		=> '/frontend/',
@@ -92,11 +87,11 @@
 				$context['documentation'][] = new XMLElement('h3', __('Anti Spam Question Filter'));
 				$context['documentation'][] = new XMLElement('p', __('To use the Anti Spam Question Filter, attach the Anti Spam Question Datasource on the pages that you use this event and add the following to your form:'));
 
-				$label = Widget::Label('<xsl:value-of select="//anti-spam-question/entry" />');
-				$label->appendChild(Widget::Input('anti-spam-question[answer]', NULL, 'text' ));
-				$label->appendChild(Widget::Input('anti-spam-question[id]', '{//anti-spam-question/entry/@id}', 'hidden' ));
+				$code = Widget::Label('<xsl:value-of select="//anti-spam-question/entry" />');
+				$code->appendChild(Widget::Input('anti-spam-question[answer]', NULL, 'text' ));
+				$code->appendChild(Widget::Input('anti-spam-question[id]', '{//anti-spam-question/entry/@id}', 'hidden' ));
 
-				$context['documentation'][] = contentBlueprintsEvents::processDocumentationCode($label);
+				$context['documentation'][] = contentAjaxEventDocumentation::processDocumentationCode($code);
 			}
 		}
 

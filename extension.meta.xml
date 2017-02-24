@@ -16,6 +16,12 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="2.1.0" date="2017-02-24" min="2.4.0" max="2.6.x">
+			- Fix `AppendEventFilterDocumentation` delegate context
+			- Fetch filter documentation via AJAX
+			- Symphony 2.4.X - 2.6.X Compatibility
+			- Added MIT licence
+		</release>
 		<release version="2.0.0" date="2017-02-24" min="2.3.0" max="2.4.x">
 			- Renamed extension to "Anti Spam Question"
 			- Refactored extension and replaced event with datasource
