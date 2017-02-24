@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension id="answerme" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
-	<name>Answer Me</name>
+<extension id="anti_spam_question" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+	<name>Anti Spam Question</name>
 	<description>Protect your frontend forms by asking random questions.</description>
-	<repo type="github">https://github.com/lewiswharf/answerme</repo>
+	<repo type="github">https://github.com/twiro/anti_spam_question</repo>
 	<url type="discuss">http://www.getsymphony.com/discuss/thread/391/</url>
+	<url type="issues">https://github.com/twiro/anti_spam_question/issues</url>
 	<types>
 		<type>Filter</type>
 		<type>Spam Protection</type>
 	</types>
 	<authors>
 		<author>
-			<name github="twiro">Mark Lewis</name>
-			<email>mark@casadelewis.com</email>
-			<website>https://github.com/lewiswharf</website>
+			<name github="twiro">Roman Klein</name>
+			<website>https://github.com/twiro</website>
 		</author>
 	</authors>
 	<releases>
+		<release version="2.0.0" date="2017-02-24" min="2.3.0" max="2.4.x">
+			- Renamed extension to "Anti Spam Question"
+			- Refactored extension and replaced event with datasource
+			- Symphony 2.3.X Compatibility
+		</release>
 		<release version="1.0.1" date="2009-05-08" min="2.0.1" max="2.2.x">
-			- Initial release by Mark Lewis
+			- Initial release by Mark Lewis (as "Answer Me") 
 		</release>
 	</releases>
 </extension>

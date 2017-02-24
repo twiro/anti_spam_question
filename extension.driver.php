@@ -1,117 +1,111 @@
 <?php
+
+	require_once(EXTENSIONS . '/anti_spam_question/lib/class.anti_spam_question.php');
 	
-	class extension_answerme extends Extension {
-		public function about() {
+	class extension_anti_spam_question extends Extension {
+
+		/**
+		 * Append custom navigation items to backend navigation
+		 */
+		public function fetchNavigation()
+		{
 			return array(
-				'name'			=> 'Answer Me',
-				'version'		=> '1.01',
-				'release-date'	=> '2009-01-08',
-				'author'		=> array(
-					'name'			=> 'Mark Lewis',
-					'website'		=> 'http://casadelewis.com/',
-					'email'			=> 'mark@casadelewis.com'
-				),
-				'description'	=> 'Protect your front-end forms by asking random questions.'
-	 		);
+				array(
+					'location'	=> __('System'),
+					'name'		=> anti_spam_question::EXT_NAME,
+					'link'		=> '/questions/'
+				)
+			);
 		}
-		
-		public function uninstall() {
-			$this->_Parent->Database->query("DROP TABLE `tbl_answerme`");
-		}
-		
-		public function install() {
-			$this->_Parent->Database->query("CREATE TABLE `tbl_answerme` (
-				`id` int(11) unsigned NOT NULL auto_increment,
-				`question` varchar(255) collate utf8_unicode_ci NOT NULL,
-				`answer` varchar(100) collate utf8_unicode_ci NOT NULL,
-				PRIMARY KEY  (`id`)
-				) TYPE=MyISAM");
-		}
-		
-		public function getSubscribedDelegates() {
+	
+		/**
+		 * Subscribe to delegates
+		 */
+		public function getSubscribedDelegates()
+		{
 			return array(
 				array(
 					'page'		=> '/blueprints/events/new/',
 					'delegate'	=> 'AppendEventFilter',
-					'callback'	=> 'appendFilter'
+					'callback'	=> 'appendEventFilter'
 				),
 				array(
 					'page'		=> '/blueprints/events/edit/',
 					'delegate'	=> 'AppendEventFilter',
-					'callback'	=> 'appendFilter'
+					'callback'	=> 'appendEventFilter'
 				),
 				array(
 					'page'		=> '/blueprints/events/new/',
 					'delegate'	=> 'AppendEventFilterDocumentation',
-					'callback'	=> 'appendDocumentation'
-				),				
+					'callback'	=> 'appendEventFilterDocumentation'
+				),
 				array(
 					'page'		=> '/blueprints/events/edit/',
 					'delegate'	=> 'AppendEventFilterDocumentation',
-					'callback'	=> 'appendDocumentation'
+					'callback'	=> 'appendEventFilterDocumentation'
 				),
 				array(
 					'page'		=> '/frontend/',
 					'delegate'	=> 'EventPreSaveFilter',
-					'callback'	=> 'processData'
+					'callback'	=> 'eventPreSaveFilter'
 				)
 			);
 		}
-				
-		public function appendFilter($context) {
+
+		/**
+		 * install the extension
+		 */
+		public function install()
+		{
+			return anti_spam_question::createTable();
+		}
+
+		/**
+		 * uninstall the extension
+		 */
+		public function uninstall()
+		{
+			return anti_spam_question::deleteTable();
+		}
+
+		/**
+		 * Append filter to symphony's event pages
+		 */
+		public function appendEventFilter($context)
+		{
 			$context['options'][] = array(
-				'answerme',
+				anti_spam_question::EXT_DS_ROOT,
 				@in_array(
-					'answerme', $context['selected']
+					anti_spam_question::EXT_DS_ROOT, $context['selected']
 				),
-				'Answer Me'
+				anti_spam_question::EXT_NAME
 			);
 		}
 
-		public function appendDocumentation($context) {
-			if (!in_array('answerme', $context['selected'])) return;
-			
-			$context['documentation'][] = new XMLElement('h3', 'Answer Me Filter');
-			$context['documentation'][] = new XMLElement('p', 'To use the Answer Me filter, attach the Answer Me event on the pages that you use this event and add the following to your form:');
+		/**
+		 * Append filter documentation to symphony's event pages
+		 */
+		public function appendEventFilterDocumentation($context)
+		{
+			if (in_array('anti-spam-question', $context['selected'])) {
 
-			$label = Widget::Label('<xsl:value-of select="events/answer-me/question" />');
-			$label->appendChild(Widget::Input('answerme[answer]', NULL, 'text' ));
-			$label->appendChild(Widget::Input('answerme[id]', '{events/answer-me/question/@id}', 'hidden' ));
+				$context['documentation'][] = new XMLElement('h3', __('Anti Spam Question Filter'));
+				$context['documentation'][] = new XMLElement('p', __('To use the Anti Spam Question Filter, attach the Anti Spam Question Datasource on the pages that you use this event and add the following to your form:'));
 
-			$context['documentation'][] = contentBlueprintsEvents::processDocumentationCode($label);
-		}
+				$label = Widget::Label('<xsl:value-of select="//anti-spam-question/entry" />');
+				$label->appendChild(Widget::Input('anti-spam-question[answer]', NULL, 'text' ));
+				$label->appendChild(Widget::Input('anti-spam-question[id]', '{//anti-spam-question/entry/@id}', 'hidden' ));
 
-		public function fetchNavigation(){ 
-			return array(
-				array(
-					'location' => 400,
-					'name' => 'Answer Me',
-					'children' => array(
-						
-						array(
-							'name' => 'Overview',
-							'link' => '/questions/'							
-						)
-					)
-				)
-			);
-		}
-		
-		public function processData($context) {
-			if (!in_array('answerme', $context['event']->eParamFILTERS)) return;
-	
-			$sql = "SELECT * FROM `tbl_answerme` WHERE `id` = '" . $_POST['answerme']['id'] . "' LIMIT 1";
-			$entry = $this->_Parent->Database->fetchRow('0', $sql);
-			
-			if(strtolower($entry['answer']) == strtolower($_POST['answerme']['answer']))
-			{
-				$context['messages'][] = array('answerme', true, NULL);
-			}
-			else
-			{
-				$context['messages'][] = array('answerme', false, 'The answer to the question was incorrect.');
+				$context['documentation'][] = contentBlueprintsEvents::processDocumentationCode($label);
 			}
 		}
+
+		/**
+		 * perform event filter
+		 */
+		public function eventPreSaveFilter($context)
+		{
+			anti_spam_question::eventFilter($context);
+		}
+
 	}
-	
-?>
