@@ -1,7 +1,7 @@
 Answer Me
 -------------------------------------------------------------------------------
 
-Version: 1.0
+Version: 1.0.1
 Author: Mark Lewis <mark@casadelewis.com>
 Build Date: 8 May 2009
 Requirements: Symphony 2.0.1
@@ -15,4 +15,4 @@ Installation
 2. Enable it by selecting the "Answer Me" item under Extensions, choose Enable
    from the with-selected menu, then click Apply.
    
-3. Go to 
+3. Go to "Answer Me" in the Symphony Backend.

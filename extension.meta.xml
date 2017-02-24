@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension id="answerme" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+	<name>Answer Me</name>
+	<description>Protect your frontend forms by asking random questions.</description>
+	<repo type="github">https://github.com/lewiswharf/answerme</repo>
+	<url type="discuss">http://www.getsymphony.com/discuss/thread/391/</url>
+	<types>
+		<type>Filter</type>
+		<type>Spam Protection</type>
+	</types>
+	<authors>
+		<author>
+			<name github="twiro">Mark Lewis</name>
+			<email>mark@casadelewis.com</email>
+			<website>https://github.com/lewiswharf</website>
+		</author>
+	</authors>
+	<releases>
+		<release version="1.0.1" date="2009-05-08" min="2.0.1" max="2.2.x">
+			- Initial release by Mark Lewis
+		</release>
+	</releases>
+</extension>
