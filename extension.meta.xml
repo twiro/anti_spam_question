@@ -16,6 +16,9 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="2.1.1" date="2017-03-21" min="2.4.0" max="2.x.x">
+			- Fix code example in documentation ([#1](https://github.com/twiro/anti_spam_question/issues/1))
+		</release>
 		<release version="2.1.0" date="2017-02-24" min="2.4.0" max="2.x.x">
 			- Fix "AppendEventFilterDocumentation" delegate context
 			- Fetch filter documentation via AJAX
@@ -28,7 +31,7 @@
 			- Symphony 2.3.X Compatibility
 		</release>
 		<release version="1.0.1" date="2009-05-08" min="2.0.1" max="2.2.x">
-			- Initial release by Mark Lewis (as "Answer Me") 
+			- Initial release by Mark Lewis (as "Answer Me")
 		</release>
 	</releases>
 </extension>

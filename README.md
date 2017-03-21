@@ -23,9 +23,9 @@ This extension for [Symphony CMS](http://getsymphony.com) offers an interface to
 **Example Frontend Form Markup:**
 
 	<label>
-		<xsl:value-of select="//anti-spam-question/question" />
+		<xsl:value-of select="//anti-spam-question/entry" />
 		<input name="anti-spam-question[answer]" type="text" />
-		<input name="anti-spam-question[id]" type="hidden" value="{//anti-spam-question/question/@id}" />
+		<input name="anti-spam-question[id]" type="hidden" value="{//anti-spam-question/entry/@id}" />
 	</label>
 
 Now your frontend form will be populated with a random question and will only succeed if the matching answer will be found in the submitted data. Otherwise the **Anti Spam Question Filter** will return an error.
