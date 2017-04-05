@@ -31,14 +31,14 @@
 			$function = ($type == 'action' ? '__action' : '__view') . (isset($this->_page) ? ucfirst($this->_page) : 'Index');
 
 			if(!method_exists($this, $function)) {
-			
+
 				// If there is no action function, just return without doing anything
 				if($type == 'action') return;
 
 				$this->_Parent->errorPageNotFound();
 
 			}
-			
+
 			$this->$function();
 
 		}
@@ -47,7 +47,7 @@
 		{
 			$this->setTitle(anti_spam_question::EXT_NAME . ' &ndash; ' . __('Symphony'));
 			$this->setPageType('index');
-			$this->appendSubheading(anti_spam_question::EXT_NAME, Widget::Anchor('Create New', anti_spam_question::EXT_BASE_URL . '/new/', __('Create a new entry'), 'create button'));
+			$this->appendSubheading(anti_spam_question::EXT_NAME, Widget::Anchor('Create New', SYMPHONY_URL . anti_spam_question::EXT_CONTENT_PATH . '/new/', __('Create a new entry'), 'create button'));
 
 			$aTableHead = array(
 				array(__('Question'), 'col'),
@@ -70,7 +70,7 @@
 
 				foreach($entries as $entry) {
 
-					$tableData[] = Widget::TableData(Widget::Anchor(General::limitWords($entry['question'], '100'), anti_spam_question::EXT_BASE_URL . '/edit/' . $entry['id'] . '/', $entry['id'], 'content'));
+					$tableData[] = Widget::TableData(Widget::Anchor(General::limitWords($entry['question'], '100'), SYMPHONY_URL . anti_spam_question::EXT_CONTENT_PATH . '/edit/' . $entry['id'] . '/', $entry['id'], 'content'));
 					$tableData[] = Widget::TableData(General::limitWords($entry['answer'], '100'));
 					$tableData[count($tableData) - 1]->appendChild(Widget::Input('items['.$entry['id'].']', NULL, 'checkbox'));
 
@@ -81,7 +81,7 @@
 					unset($tableData);
 				}
 			}
-	
+
 			$table = Widget::Table(Widget::TableHead($aTableHead), NULL, Widget::TableBody($aTableBody));
 			$table->setAttribute('class', 'selectable');
 			$table->setAttribute('data-interactive', 'data-interactive');
@@ -125,7 +125,7 @@
 			// page context
 			$this->appendSubheading(__('New Question'));
 			$breadcrumbs = array(
-				Widget::Anchor(anti_spam_question::EXT_NAME, anti_spam_question::EXT_BASE_URL . '/' )
+				Widget::Anchor(anti_spam_question::EXT_NAME, SYMPHONY_URL . anti_spam_question::EXT_CONTENT_PATH . '/' )
 			);
 			$this->insertBreadcrumbs($breadcrumbs);
 
@@ -150,16 +150,16 @@
 			$div->appendChild(Widget::Input('action[save]', 'Create Entry', 'submit', array('accesskey' => 's')));
 
 			$this->Form->appendChild($div);
-			
+
 		}
-	
+
 		function __actionNew() {
-		
+
 			if(!Symphony::Database()->insert($_POST['fields'], anti_spam_question::EXT_TBL_NAME)) {
 				define_safe('__SYM_DB_INSERT_FAILED__', true);
 				$this->pageAlert(NULL, AdministrationPage::PAGE_ALERT_ERROR);
 			} else {
-				redirect(anti_spam_question::EXT_BASE_URL . '/edit/' . Symphony::Database()->getInsertID() . '/created/');
+				redirect(SYMPHONY_URL . anti_spam_question::EXT_CONTENT_PATH . '/edit/' . Symphony::Database()->getInsertID() . '/created/');
 			}
 		}
 
@@ -175,7 +175,7 @@
 
 			$this->appendSubheading($entry['question']);
 			$breadcrumbs = array(
-				Widget::Anchor(anti_spam_question::EXT_NAME, anti_spam_question::EXT_BASE_URL . '/' )
+				Widget::Anchor(anti_spam_question::EXT_NAME, SYMPHONY_URL . anti_spam_question::EXT_CONTENT_PATH . '/' )
 			);
 			$this->insertBreadcrumbs($breadcrumbs);
 
@@ -202,17 +202,17 @@
 			$this->Form->appendChild($div);
 
 			if(isset($this->_flag)) {
-			
+
 				switch($this->_flag) {
-	
+
 					case 'saved':
-						$this->pageAlert(__('Question updated successfully. <a href="%s">Create another?</a>', array(anti_spam_question::EXT_BASE_URL . '/new/')), Alert::SUCCESS);
+						$this->pageAlert(__('Question updated successfully. <a href="%s">Create another?</a>', array(SYMPHONY_URL . anti_spam_question::EXT_CONTENT_PATH . '/new/')), Alert::SUCCESS);
 						break;
-	
+
 					case 'created':
-						$this->pageAlert(__('Question created successfully. <a href="%s">Create another?</a>', array(anti_spam_question::EXT_BASE_URL . '/new/')), Alert::SUCCESS);
+						$this->pageAlert(__('Question created successfully. <a href="%s">Create another?</a>', array(SYMPHONY_URL . anti_spam_question::EXT_CONTENT_PATH . '/new/')), Alert::SUCCESS);
 						break;
-	
+
 				}
 			}
 		}
@@ -223,7 +223,7 @@
 				define_safe('__SYM_DB_INSERT_FAILED__', true);
 				$this->pageAlert(NULL, Alert::ERROR);
 			} else {
-				redirect(anti_spam_question::EXT_BASE_URL . '/edit/' . $this->_id . '/saved/');
+				redirect(SYMPHONY_URL . anti_spam_question::EXT_CONTENT_PATH . '/edit/' . $this->_id . '/saved/');
 			}
 		}
 	}
