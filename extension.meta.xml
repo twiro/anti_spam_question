@@ -16,7 +16,7 @@
 		</author>
 	</authors>
 	<releases>
-		<release version="2.1.2" date="2017-03-21" min="2.4.0" max="2.x.x">
+		<release version="2.1.2" date="2017-04-05" min="2.4.0" max="2.x.x">
 			- Fix PHP 5.4 Support ([#2](https://github.com/twiro/anti_spam_question/issues/2))
 		</release>
 		<release version="2.1.1" date="2017-03-21" min="2.4.0" max="2.x.x">
