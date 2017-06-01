@@ -30,7 +30,7 @@
 		/**
 		 * Execute
 		 */
-		public function execute()
+		public function execute(array &$param_pool = null)
 		{
 
 			$tbl = anti_spam_question::EXT_TBL_NAME;
