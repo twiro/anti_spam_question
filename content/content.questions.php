@@ -31,14 +31,14 @@
 			$function = ($type == 'action' ? '__action' : '__view') . (isset($this->_page) ? ucfirst($this->_page) : 'Index');
 
 			if(!method_exists($this, $function)) {
-
+			
 				// If there is no action function, just return without doing anything
 				if($type == 'action') return;
 
 				$this->_Parent->errorPageNotFound();
 
 			}
-
+			
 			$this->$function();
 
 		}
@@ -81,7 +81,7 @@
 					unset($tableData);
 				}
 			}
-
+	
 			$table = Widget::Table(Widget::TableHead($aTableHead), NULL, Widget::TableBody($aTableBody));
 			$table->setAttribute('class', 'selectable');
 			$table->setAttribute('data-interactive', 'data-interactive');
@@ -150,11 +150,11 @@
 			$div->appendChild(Widget::Input('action[save]', 'Create Entry', 'submit', array('accesskey' => 's')));
 
 			$this->Form->appendChild($div);
-
+			
 		}
-
+	
 		function __actionNew() {
-
+		
 			if(!Symphony::Database()->insert($_POST['fields'], anti_spam_question::EXT_TBL_NAME)) {
 				define_safe('__SYM_DB_INSERT_FAILED__', true);
 				$this->pageAlert(NULL, AdministrationPage::PAGE_ALERT_ERROR);
@@ -202,17 +202,17 @@
 			$this->Form->appendChild($div);
 
 			if(isset($this->_flag)) {
-
+			
 				switch($this->_flag) {
-
+	
 					case 'saved':
 						$this->pageAlert(__('Question updated successfully. <a href="%s">Create another?</a>', array(SYMPHONY_URL . anti_spam_question::EXT_CONTENT_PATH . '/new/')), Alert::SUCCESS);
 						break;
-
+	
 					case 'created':
 						$this->pageAlert(__('Question created successfully. <a href="%s">Create another?</a>', array(SYMPHONY_URL . anti_spam_question::EXT_CONTENT_PATH . '/new/')), Alert::SUCCESS);
 						break;
-
+	
 				}
 			}
 		}

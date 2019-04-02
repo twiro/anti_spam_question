@@ -12,8 +12,8 @@
 		{
 			return array(
 				'name' => anti_spam_question::EXT_NAME,
-				'version' => '2.0.0',
-				'release-date' => '2017-02-24',
+				'version' => '2.2.0',
+				'release-date' => '2017-06-20',
 				'author' => array(
 					'name' => anti_spam_question::EXT_NAME,
 					'website' => 'https://github.com/twiro/anti_spam_question'
@@ -30,7 +30,7 @@
 		/**
 		 * Execute
 		 */
-		public function execute()
+		public function execute(array &$param_pool = null)
 		{
 
 			$tbl = anti_spam_question::EXT_TBL_NAME;
